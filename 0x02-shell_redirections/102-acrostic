@@ -1,2 +1,2 @@
 #!/bin/bash
-cut -c l | paste -s -d ''
+cut -b 1 | tr -d "\n" & echo | rev
