@@ -4,8 +4,8 @@
 # Only displays the part of the name after the first dash
 
 for file in *; do
-    if [ -f "$file" ] && [[ "$file" == *-* ]]; then
-        name_part="${file#*-}"
-        echo "$name_part"
-    fi
+	if [ -f "$file" ] && [[ "$file" == *-* ]]; then
+	name_part="${file#*-}" # Get the part name after the first dash
+	echo "$name_part"
+	fi
 done
