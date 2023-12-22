@@ -7,19 +7,19 @@ timeout=10
 pid=$(pgrep -o "$process_name")
 
 if [ -n "$pid" ]; then
-    kill -15 "$pid"
+	pkill -15 "$pid"
 
-    while pgrep -o "$process_name" > /dev/null && [ "$timeout" -gt 0 ]; do
-        sleep 1
-        ((timeout--))
-    done
+	while pgrep -o "$process_name" > /dev/null && [ "$timeout" -gt 0 ]; do
+	sleep 1
+	((timeout--))
+	done
 
-    if pgrep -o "$process_name" > /dev/null; then
-        echo "Failed to stop the process within the timeout."
-        exit 1
-    else
-        echo "Process stopped successfully."
-    fi
+	if pgrep -o "$process_name" > /dev/null; then
+	echo "Failed to stop the process within the timeout."
+	exit 1
+	else
+	echo "Process stopped successfully."
+	fi
 else
-    echo "Process not found."
+	echo "Process not found."
 fi
