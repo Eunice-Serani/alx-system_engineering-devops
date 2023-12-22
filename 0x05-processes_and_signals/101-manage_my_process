@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-PID_FILE="/var/run/my_process.pid"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PID_FILE="$SCRIPT_DIR/var/run/my_process.pid"
+MANAGE_MY_PROCESS="$SCRIPT_DIR/manage_my_process"
 
 start_manage_my_process() {
     if [ -f "$PID_FILE" ]; then
@@ -8,7 +10,7 @@ start_manage_my_process() {
         exit 1
     fi
 
-    ./manage_my_process &         # Assuming manage_my_process is in the same directory
+    "$MANAGE_MY_PROCESS" &         # Assuming manage_my_process is in the same directory
     echo $! > "$PID_FILE"
     echo "manage_my_process started with PID: $!"
 }
