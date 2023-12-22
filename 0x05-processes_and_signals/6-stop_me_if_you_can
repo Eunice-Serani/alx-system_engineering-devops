@@ -1,5 +1,27 @@
 #!/usr/bin/env bash
-# Kills the infinity  and beyond program using sigkill signal
+# Assuming your process is named "to_infinity_and_beyond"
+process_name="to_infinity_and_beyond"
 
-# Terminate the infinite process
-pkill -15 "bash ,/4-to_infinity_and_beyond" -f
+# Find the PID of the process
+pid=$(pgrep -o "$process_name")
+
+if [ -n "$pid" ]; then
+    # Send a TERM signal to gracefully terminate the process
+    kill -15 "$pid"
+
+    # Wait for the process to terminate (adjust the timeout if needed)
+    timeout=10
+    while pgrep -o "$process_name" > /dev/null && [ "$timeout" -gt 0 ]; do
+        sleep 1
+        ((timeout--))
+    done
+
+    if pgrep -o "$process_name" > /dev/null; then
+        echo "Failed to stop the process within the timeout."
+        exit 1
+    else
+        echo "Process stopped successfully."
+    fi
+else
+    echo "Process not found."
+fi
