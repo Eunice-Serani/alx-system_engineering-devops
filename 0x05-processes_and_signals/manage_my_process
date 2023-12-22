@@ -2,6 +2,6 @@
 # Displays "I am alive!" indefinitely
 while "true"
 do
-	echo "I am alive!" >> /tmp/my_process
+	echo "I am alive!" > /tmp/my_process
 	sleep 2
 done
