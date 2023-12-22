@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Assuming your process is named "to_infinity_and_beyond"
+# Assuming your process is named "To_infinity_and_beyond"
 process_name="To_infinity_and_beyond"
 timeout=10
 
