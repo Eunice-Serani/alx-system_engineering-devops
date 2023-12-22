@@ -1,17 +1,28 @@
 #!/usr/bin/env bash
 
+PID_FILE="/var/run/my_process.pid"
+
 start_manage_my_process() {
+    if [ -f "$PID_FILE" ]; then
+        echo "manage_my_process is already running. Use 'restart' if needed."
+        exit 1
+    fi
+
     ./manage_my_process &         # Assuming manage_my_process is in the same directory
-    echo $! > /var/run/my_process.pid
-    echo "manage_my_process started"
+    echo $! > "$PID_FILE"
+    echo "manage_my_process started with PID: $!"
 }
 
 stop_manage_my_process() {
-    pid=$(cat /var/run/my_process.pid 2>/dev/null)
-    if [ -n "$pid" ]; then
-        kill "$pid" &>/dev/null
-        rm /var/run/my_process.pid
-        echo "manage_my_process stopped"
+    if [ -f "$PID_FILE" ]; then
+        pid=$(cat "$PID_FILE" 2>/dev/null)
+        if ps -p "$pid" &>/dev/null; then
+            kill "$pid" &>/dev/null
+            echo "manage_my_process stopped"
+        else
+            echo "manage_my_process is not running"
+        fi
+        rm "$PID_FILE"
     else
         echo "manage_my_process is not running"
     fi
