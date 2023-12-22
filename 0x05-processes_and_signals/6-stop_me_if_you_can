@@ -1,24 +1,25 @@
 #!/usr/bin/env bash
-# Assuming your process is named "to_infinity_and_beyond"
-process_name="to_infinity_and_beyond"
+# Assuming your process is named "To_infinity_and_beyond"
+process_name="To_infinity_and_beyond"
+timeout=10
 
 # Find the PID of the process
 pid=$(pgrep -o "$process_name")
 
 if [ -n "$pid" ]; then
-	kill -15 "$pid"
+    kill -15 "$pid"
 
-	while pgrep -o "$process_name" > /dev/null && [ "$timeout" -gt 0 ]; do
-	sleep 1
-	((timeout=10))
-	done
+    while pgrep -o "$process_name" > /dev/null && [ "$timeout" -gt 0 ]; do
+        sleep 1
+        ((timeout--))
+    done
 
-	if pgrep -o "$process_name" > /dev/null; then
-	echo "Failed to stop the process within the timeout."
-	exit 1
-	else
-	echo "Process stopped successfully."
-	fi
+    if pgrep -o "$process_name" > /dev/null; then
+        echo "Failed to stop the process within the timeout."
+        exit 1
+    else
+        echo "Process stopped successfully."
+    fi
 else
-	echo "Process not found."
+    echo "Process not found."
 fi
