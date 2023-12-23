@@ -28,7 +28,7 @@ start_manage_my_process()
 		exit 1
 	fi
 
-	"$MANAGE_MY_PROCESS" &         # Assuming manage_my_process is in the same directory
+	"$MANAGE_MY_PROCESS" &
 	echo $! > "$PID_FILE"
 	echo "manage_my_process started with PID: $!"
 }
