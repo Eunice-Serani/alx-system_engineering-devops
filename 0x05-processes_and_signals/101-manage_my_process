@@ -59,16 +59,12 @@ restart_manage_my_process()
 
 case "$1" in
 	start)
-		start_manage_my_process
-		;;
+		start_manage_my_process;
 	stop)
-		stop_manage_my_process
-		;;
+		stop_manage_my_process;
 	restart)
-		restart_manage_my_process
-		;;
+		restart_manage_my_process;
 	*)
 		echo "Usage: $0 {start|stop|restart}"
-		exit 1
-		;;
+		exit 1;
 esac
