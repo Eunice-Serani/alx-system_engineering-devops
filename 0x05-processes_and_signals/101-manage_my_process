@@ -20,56 +20,50 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PID_FILE="$SCRIPT_DIR/var/run/my_process.pid"
 MANAGE_MY_PROCESS="$SCRIPT_DIR/manage_my_process"
 
-start_manage_my_process()
-{
-	if [ -f "$PID_FILE" ];
-	then
-		echo "manage_my_process is already running. Use 'restart' if needed."
-		exit 1
-	fi
-	
-	"$MANAGE_MY_PROCESS" &         # Assuming manage_my_process is in the same directory
-	echo $! > "$PID_FILE"
-	echo "manage_my_process started with PID: $!"
+start_manage_my_process() {
+    if [ -f "$PID_FILE" ]; then
+        echo "manage_my_process is already running. Use 'restart' if needed."
+        exit 1
+    fi
+
+    "$MANAGE_MY_PROCESS" &         # Assuming manage_my_process is in the same directory
+    echo $! > "$PID_FILE"
+    echo "manage_my_process started with PID: $!"
 }
 
-stop_manage_my_process()
-{
-	if [ -f "$PID_FILE" ];
-	then
-		pid=$(cat "$PID_FILE" 2>/dev/null)
-		if ps -p "$pid" &>/dev/null;
-		then
-			kill "$pid" &>/dev/null
-			echo "manage_my_process stopped"
-		else
-			echo "manage_my_process is not running"
-		fi
-		rm "$PID_FILE"
-	else
-		echo "manage_my_process is not running"
-	fi
+stop_manage_my_process() {
+    if [ -f "$PID_FILE" ]; then
+        pid=$(cat "$PID_FILE" 2>/dev/null)
+        if ps -p "$pid" &>/dev/null; then
+            kill "$pid" &>/dev/null
+            echo "manage_my_process stopped"
+        else
+            echo "manage_my_process is not running"
+        fi
+        rm "$PID_FILE"
+    else
+        echo "manage_my_process is not running"
+    fi
 }
 
-restart_manage_my_process()
-{
-	stop_manage_my_process
-	start_manage_my_process
-	echo "manage_my_process restarted"
+restart_manage_my_process() {
+    stop_manage_my_process
+    start_manage_my_process
+    echo "manage_my_process restarted"
 }
 
 case "$1" in
-	start)
-		start_manage_my_process
-		;;
-	stop)
-		stop_manage_my_process
-		;;
-	restart)
-		restart_manage_my_process
-		;;
-	*)
-		echo "Usage: $0 {start|stop|restart}"
-		exit 1
-		;;
+    start)
+        start_manage_my_process
+        ;;
+    stop)
+        stop_manage_my_process
+        ;;
+    restart)
+        restart_manage_my_process
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+        ;;
 esac
