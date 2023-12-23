@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Displays "I am alive!" indefinitely
-# Pauses two seconds in between
+# Pauses two seconds in between every "I am alive!" message
 while "true"
 do
 	echo "I am alive!" >> /tmp/my_process
