@@ -2,11 +2,7 @@
 # Displays the contents of the current directory list format
 # This only displays the part of the name after the first dash
 
-shopt -s nullglob  # To handle the case of no matching files
-
-for file in *_*; do
-    if [ -e "$file" ]; then
-        name_part=$(echo "$file" | cut -d '_' -f2)
-        echo "$name_part"
-    fi
+list=$(ls)
+for i in $list; do
+	echo "$i" | cut -d '-' -f2
 done
