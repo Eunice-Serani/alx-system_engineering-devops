@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# Configures the nginx to redirect to another page
+
+# Function to install and configure nginx
+install_nginx() {
+	# Update the system
+	apt update
+
+	# Install nginx
+	apt install -y nginx
+
+	# Create and add content to index.html
+	echo "Hello World!" > /var/www/html/index.html
+
+	# Restart nginx
+	service nginx restart
+}
+
+# Function to configure redirection
+configure_redirection() {
+	# Create a backup of the default Nginx configuration
+	cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+
+	# Using sed to configure nginx
+	sed_string='server_name _;\n\n\trewrite \^\/redirect_me https:\/\/www.youtube.com\/watch\?v=QH2-TGUlwu4 permanent;/'
+	sed -i "s/server_name _;\$/${sed_string}" /etc/nginx/sites-available/default
+	ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+
+	# Restart nginx to apply changes
+	service nginx restart
+}
+
+# Main
+install_nginx
+configure_redirection
