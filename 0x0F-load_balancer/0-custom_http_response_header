@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# This adds a custom header to a linux server
+
+# Update system
+apt-get -y update
+
+# Install nginx
+apt-get -y install nginx
+
+# Set config file path
+config_file="/etc/nginx/sites-available/default"
+
+# Update index.html
+echo "Hello World!" | tee /var/www/html/index.html
+
+# Create 404.html file
+echo "Ceci n'est pas une page" > /var/www/html/404.html
+
+# Add a header
+sed -i "54i\\\tadd_header X-Served-By $HOSTNAME;" "$config_file"
+
+service nginx restart
