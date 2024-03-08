@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Script that displays information about subdomains.
+
+# This displays information about all subdomains
+function all_subdomains {
+	domain_names=("www" "lb-01" "web-01" "web-02")
+
+	for i in "${domain_names[@]}";
+	do
+		dig "${i}"."$1" | grep -A1 'ANSWER SECTION:' | \
+		awk 'FNR == 2 {printf "The subdomain %s is a %s record and points to %s\n", var, $4, $5}' var="$i"
+	done
+}
+
+# This displays information about a specified subdomain
+function subdomain_check {
+	dig "${2}"."$1" | grep -A1 'ANSWER SECTION:' | \
+	awk 'FNR == 2 {printf "The subdomain %s is a %s record and points to %s\n", var, $4, $5}' var="$2"
+}
+
+if [ $# -eq 1 ]
+then
+	all_subdomains "$1";
+elif [ $# -eq 2 ]
+then
+	subdomain_check "$1" "$2";
+fi
