@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# A script that run the whoami command under the user passed as an argument
+if [ "$#" -eq 0 ]; then
+	echo "Usage: ./0-iamsomeoneelse <user>"
+else
+	sudo -u "$1" whoami
+fi
