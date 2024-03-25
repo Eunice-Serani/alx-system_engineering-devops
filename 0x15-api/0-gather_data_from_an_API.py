@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-This implements a script that is using, this JSONPlaceholder API, for a given employee
+This implements a script using, this JSONPlaceholder API, for a given employee
 ID, returns information about his/her TODO list progress.
 """
 import requests
