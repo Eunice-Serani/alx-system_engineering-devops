@@ -5,7 +5,6 @@ for a given subreddit
 """
 import requests
 
-
 def number_of_subscribers(subreddit):
     """
     Queries the Reddit API and returns the number of subscribers
@@ -22,15 +21,9 @@ def number_of_subscribers(subreddit):
 
     try:
         r = requests.get(url, headers=headers, allow_redirects=False)
-        r.raise_for_status()
-        data = r.json()
-        return data['data']['subscribers']
-    except requests.exceptions.HTTPError as errh:
-        print(f"HTTP Error: {errh}")
-    except requests.exceptions.ConnectionError as errc:
-        print(f"Error Connecting: {errc}")
-    except requests.exceptions.Timeout as errt:
-        print(f"Timeout Error: {errt}")
-    except requests.exceptions.RequestException as err:
-        print(f"Error: {err}")
-    return 0
+        if r.status_code == 200:
+            data = r.json()
+            return data['data']['subscribers']
+        return 0
+    except Exception as e:
+        return 0
