@@ -18,13 +18,19 @@ def number_of_subscribers(subreddit):
         Total subscribers, otherwise 0
     """
     url = f"https://www.reddit.com/r/{subreddit}/about.json"
-    headers = {"User-Agent": "Chrome 121"}
+    headers = {"User-Agent": "Mozilla/5.0"}
 
     try:
         r = requests.get(url, headers=headers, allow_redirects=False)
-        if r.status_code == 200:
-            data = r.json()
-            return data['data']['subscribers']
-        return 0
-    except Exception as e:
-        return 0
+        r.raise_for_status()
+        data = r.json()
+        return data['data']['subscribers']
+    except requests.exceptions.HTTPError as errh:
+        print(f"HTTP Error: {errh}")
+    except requests.exceptions.ConnectionError as errc:
+        print(f"Error Connecting: {errc}")
+    except requests.exceptions.Timeout as errt:
+        print(f"Timeout Error: {errt}")
+    except requests.exceptions.RequestException as err:
+        print(f"Error: {err}")
+    return 0
