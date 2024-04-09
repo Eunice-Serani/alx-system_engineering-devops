@@ -21,5 +21,5 @@ def top_ten(subreddit):
         subs = r.json()
         for data in subs.get('data').get('children'):
             print(data.get('data').get('title'))
-    else:
-        print(None)
+        else:
+            print(None)
