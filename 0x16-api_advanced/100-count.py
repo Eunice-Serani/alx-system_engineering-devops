@@ -1,15 +1,16 @@
 #!/usr/bin/python3
 """
-This queries the Reddit API, parses the title of all hot articles,
+Queries the Reddit API, parses the title of all hot articles,
 and prints a sorted count of given keywords
 """
 from collections import Counter
 import requests
 
+
 def count_words(subreddit, word_list, after=None, counts=None):
     """
-    This recursively queries the Reddit API, parses the title of 
-    all hot articles, and prints a sorted count of given keywords
+    Recursively queries the Reddit API, parses the title of all hot articles,
+    and prints a sorted count of given keywords
 
     Args:
         subreddit (str): The name of the subreddit to query
@@ -51,20 +52,20 @@ def count_words(subreddit, word_list, after=None, counts=None):
                 for word in word_list:
                     if word.lower() in title.lower().split():
                         counts[word.lower()] += 1
-                        after = data['data']['after']
-                        if after is not None:
-                            return count_words(subreddit, word_list, after, counts)
-                        else:
-                            sorted_counts = sorted(
-                                    counts.items(),
-                                    key=lambda x: (-x[1], x[0])
-                                    )
-                            for word, count in sorted_counts:
-                                print(f"{word}: {count}")
-                            elif response.status_code == 404:
-                                return
-                            else:
-                                return
-                            except Exception as e:
-                                print("Error:", e)
-                                return
+            after = data['data']['after']
+            if after is not None:
+                return count_words(subreddit, word_list, after, counts)
+            else:
+                sorted_counts = sorted(
+                    counts.items(),
+                    key=lambda x: (-x[1], x[0])
+                    )
+                for word, count in sorted_counts:
+                    print(f"{word}: {count}")
+        elif response.status_code == 404:
+            return
+        else:
+            return
+    except Exception as e:
+        print("Error:", e)
+        return
