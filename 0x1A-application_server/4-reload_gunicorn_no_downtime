@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# This restarts gunicorn service wonderfully
+
+PID=$(pgrep -f 'gunicorn --bind')
+
+if [ -z "$PID" ]; then
+  echo "Gunicorn is not running."
+else
+  kill -HUP "$PID"
+  echo "Gunicorn has been wonderfully reloaded."
+fi
